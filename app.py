@@ -58,7 +58,20 @@ def home():
     </div>
   </div>
 </div>
+<!-- Bootstrap JS (REQUIRED for modal) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+<script>
+function showRawData(raw) {
+    const formatted = JSON.stringify(raw, null, 2);
+    document.getElementById("rawDataContent").innerText = formatted;
+
+    let modal = new bootstrap.Modal(
+        document.getElementById("rawDataModal")
+    );
+    modal.show();
+}
+</script>
 <script>
 let recentProfiles = [];
 
@@ -120,7 +133,7 @@ function renderCurrent(data) {
             </div>
         </div>
         ${factorHtml}
-        <button class="btn btn-outline-secondary btn-sm mt-3 raw-btn">
+        <button class="btn btn-outline-secondary btn-sm mt-3 raw-btn" style="display:none;">
             View Raw Data
         </button>
     `;
@@ -217,11 +230,18 @@ def analyze():
 
     raw_score = score(features)
     risk = scale_risk(raw_score, features)
+    raw_title = raw_data.get("display_name")
+    raw_title = raw_title.strip()
+
+    # Remove Instagram suffix safely
+    display_name = raw_title.replace(" • Instagram photos and videos", "").strip()
+
 
     return jsonify({
         "status": "ok",
         "username": username,
-        "display_name": raw_data.get("display_name"),
+        # "display_name": raw_data.get("display_name"),//display_name
+        "display_name": display_name,
         "profile_picture": raw_data.get("profile_pic"),
         "risk": risk,
         "factors": features,
