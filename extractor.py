@@ -6,7 +6,7 @@ HEADERS = {
 }
 
 def fetch_instagram_profile(username):
-    url = f"https://www.instagram.com/{username}/"
+    url = f"https://www.facebook.com/{username}/"
 
     try:
         r = requests.get(url, headers=HEADERS, timeout=10)
@@ -20,7 +20,7 @@ def fetch_instagram_profile(username):
         return {"status": "private"}
 
     soup = BeautifulSoup(r.text, "html.parser")
-
+    print(soup)
     # OpenGraph tags
     name = None
     image = None
