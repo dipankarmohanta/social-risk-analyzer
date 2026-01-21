@@ -1,0 +1,6 @@
+flask
+requests
+beautifulsoup4
+scikit-learn
+numpy
+joblib
